@@ -16,8 +16,7 @@ npm (o yarn si prefieres)
 
 Clonar el repositorio
 
-git clone https://github.com/tu-usuario/tu-repo.git
-cd tu-repo
+git clone https://github.com/manurubiano222/challenge_backend.git
 
 Instalar dependencias
 

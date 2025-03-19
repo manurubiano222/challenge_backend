@@ -34,6 +34,7 @@ PORT=3000
 
 mongod --dbpath "C:\data\db"  # Iniciar MongoDB si es local
 redis-server                   # Iniciar Redis si está instalado
+docker run --name redis -p 6379:6379 -d redis # Iniciar Redis con docker
 npm start                       # Iniciar la API
 
 🖥️ Linux / Mac

@@ -60,7 +60,7 @@ file: Archivo Excel (.xlsx)
 
 🖥️ Ejemplo de uso en Windows (CMD o PowerShell)
 
-curl.exe -X POST "http://localhost:3000/upload" -H "API_KEY: secreto" -F "file=@C:\ruta\archivo.xlsx"
+curl.exe -X POST -H "x-api-key: secreto" -F "file=@C:\ruta\archivo.xlsx" http://localhost:3000/api/upload
 
 🖥️ Ejemplo de uso en Linux / Mac
 
@@ -83,7 +83,7 @@ Autenticación: Header API_KEY: secreto
 
 🖥️ Ejemplo de uso en Windows (CMD o PowerShell)
 
-curl.exe -H "x-api-key: secreto" http://localhost:3000/api/task/{taskID}
+curl.exe -H "x-api-key: secreto" http://localhost:3000/api/task/{taskID} 
 
 🖥️ Ejemplo de uso en Linux / Mac
 

@@ -1,26 +1,26 @@
 const mongoose = require('mongoose');
 
 const TaskSchema = new mongoose.Schema({
-    status: { 
-        type: String, 
-        enum: ['pending', 'processing', 'done', 'failed'], 
-        default: 'pending' 
+    status: {
+        type: String,
+        enum: ['pending', 'processing', 'done', 'failed'],
+        default: 'pending'
     },
-    validationErrors: [{  
-        row: { type: Number, min: 1 }, 
-        col: { type: Number, min: 1 }  
+    validationErrors: [{
+        row: { type: Number, min: 1 },
+        col: { type: Number, min: 1 }
     }],
-    parsedData: [{ 
+    parsedData: [{
         name: String,
         age: Number,
         nums: [Number]
     }],
-    createdAt: { 
-        type: Date, 
+    createdAt: {
+        type: Date,
         default: Date.now,
         validate: {
             validator: function(v) {
-                return v instanceof Date && !isNaN(v); 
+                return v instanceof Date && !isNaN(v);
             },
             message: 'La fecha de creación no es válida'
         }

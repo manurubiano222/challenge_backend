@@ -1,55 +1,38 @@
-const Task = require('../models/task');
+const GetTaskStatus = require('../useCases/GetTaskStatus');
+const GetTaskData = require('../useCases/GetTaskData');
+const GetTaskErrors = require('../useCases/GetTaskErrors');
+const TaskRepository = require('../repositories/TaskRepository');
+
+const taskRepository = new TaskRepository();
 
 const getTaskStatus = async (req, res) => {
+    const getTaskStatus = new GetTaskStatus(taskRepository);
     try {
-        const task = await Task.findById(req.params.taskId);
-
-        if (!task) {
-            return res.status(404).json({ message: 'Tarea no encontrada' });
-        }
-        res.json({ status: task.status, errors: task.validationErrors.length });
+        const result = await getTaskStatus.execute(req.params.taskId);
+        res.json(result);
     } catch (error) {
-        res.status(500).json({ message: 'Error interno del servidor' });
+        res.status(404).json({ message: error.message });
     }
 };
 
 const getTaskData = async (req, res) => {
+    const getTaskData = new GetTaskData(taskRepository);
     try {
-        const task = await Task.findById(req.params.taskId);
-
-        if (!task) {
-            return res.status(404).json({ message: 'Tarea no encontrada' });
-        }
-
-        res.json({ data: task.parsedData });
+        const result = await getTaskData.execute(req.params.taskId);
+        res.json(result);
     } catch (error) {
-        res.status(500).json({ message: 'Error interno del servidor' });
+        res.status(404).json({ message: error.message });
     }
 };
 
 const getTaskErrors = async (req, res) => {
+    const getTaskErrors = new GetTaskErrors(taskRepository);
     try {
-        const { taskId } = req.params;
-        const { page = 1, limit = 10 } = req.query;
-        
-        const task = await Task.findById(taskId);
-        
-        if (!task) {
-            return res.status(404).json({ message: 'Tarea no encontrada' });
-        }
-
-        const startIndex = (page - 1) * limit;
-        const paginatedErrors = task.validationErrors.slice(startIndex, startIndex + parseInt(limit));
-
-        const errorsWithoutId = paginatedErrors.map(error => {
-            const { _id, ...rest } = error.toObject(); 
-            return rest;
-        });
-
-        res.json({ errors: errorsWithoutId, totalErrors: task.validationErrors.length });
+        const result = await getTaskErrors.execute(req.params.taskId, req.query.page, req.query.limit);
+        res.json(result);
     } catch (error) {
-        res.status(500).json({ message: 'Error interno del servidor' });
+        res.status(404).json({ message: error.message });
     }
 };
 
-module.exports = { getTaskStatus, getTaskErrors, getTaskData };
+module.exports = { getTaskStatus, getTaskData, getTaskErrors };
